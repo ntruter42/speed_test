@@ -28,7 +28,7 @@ app.get('/', async function (req, res) {
 	for (let i = 0; i < 10; i++) {
 		times.push(Date.now());
 		rows.push(await db.manyOrNone(`SELECT * FROM speed.users`));
-		delays.push((new Date().getTime()) - times[i]);
+		delays.push((Date.now()) - times[i]);
 	}
 
 	res.render('index', {
