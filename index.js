@@ -4,6 +4,7 @@ import promise from "pg-promise";
 import "dotenv/config";
 
 const app = express();
+
 app.use(express.static('public'));
 app.engine('handlebars', engine({
 	defaultLayout: 'main',
@@ -11,6 +12,12 @@ app.engine('handlebars', engine({
 	layoutsDir: './views/layouts'
 }));
 app.set('view engine', 'handlebars');
+app.use(session({
+	secret: "secret42",
+	resave: false,
+	saveUninitialized: true,
+	cookie: { maxAge: 3600000 }
+}));
 
 const pgp = promise();
 const db = pgp({
@@ -24,7 +31,7 @@ app.get('/', async function (req, res) {
 	const rows = [];
 	const times = [];
 	const delays = [];
-	
+
 	for (let i = 0; i < 10; i++) {
 		times.push(Date.now());
 		rows.push(await db.manyOrNone(`SELECT * FROM speed.users`));
