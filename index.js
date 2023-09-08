@@ -12,12 +12,6 @@ app.engine('handlebars', engine({
 	layoutsDir: './views/layouts'
 }));
 app.set('view engine', 'handlebars');
-app.use(session({
-	secret: "secret42",
-	resave: false,
-	saveUninitialized: true,
-	cookie: { maxAge: 3600000 }
-}));
 
 const pgp = promise();
 const db = pgp({
